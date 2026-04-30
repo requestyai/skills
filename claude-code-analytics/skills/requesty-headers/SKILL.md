@@ -12,15 +12,15 @@ Installs a shell wrapper around `claude` that injects per-session metadata into 
 
 Every Claude Code request will carry these headers, computed at session launch:
 
-| Header | Description |
-|--------|-------------|
-| `X-Requesty-Branch` | Current git branch |
-| `X-Requesty-Repo` | `org/name` from origin remote |
-| `X-Requesty-Pr` | PR number for the branch (requires `gh` CLI) |
+| Header | What it tracks |
+|--------|---------------|
+| `X-Requesty-Branch` | Current git branch — see cost per feature branch |
+| `X-Requesty-Repo` | `org/repo` from origin — break down spend across repos |
+| `X-Requesty-Pr` | PR number — know exactly what a pull request cost |
 | `X-Requesty-Ai-Agent` | Claude Code version (e.g. `2.1.123 (Claude Code)`) |
-| `X-Requesty-User` | OS username of the developer |
+| `X-Requesty-User` | OS username — per-developer spend tracking |
 
-For the full schema, see `references/header-spec.md`.
+All data is available in your Requesty dashboards. For the full schema, see `references/header-spec.md`.
 
 ## Workflow
 
@@ -70,11 +70,3 @@ If `type claude` returns the binary path, the rc file wasn't sourced.
 - Does not handle authentication (`ANTHROPIC_BASE_URL`, `ANTHROPIC_AUTH_TOKEN` are separate).
 - Does not refresh headers mid-session. `ANTHROPIC_CUSTOM_HEADERS` is read once at launch.
 - Does not modify `~/.claude/settings.json`. All state lives in the shell rc file.
-
-## Customer value
-
-These headers enable Requesty customers to:
-- **Cost attribution by branch** — see which feature branch is burning API credits
-- **PR-level spend tracking** — correlate spend to specific pull requests
-- **Per-user cost tracking** — see which developer is using how much
-- **Agent version tracking** — know which Claude Code version generated the cost
