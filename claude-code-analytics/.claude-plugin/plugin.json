@@ -1,0 +1,8 @@
+{
+  "name": "claude-code-analytics",
+  "description": "Attaches branch, repo, agent version, and user metadata to every Claude Code request via Requesty's X-Requesty-* headers.",
+  "author": {
+    "name": "Requesty",
+    "email": "support@requesty.ai"
+  }
+}
