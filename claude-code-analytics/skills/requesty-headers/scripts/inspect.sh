@@ -13,11 +13,6 @@ if [[ -n "$repo_url" ]]; then
   repo=$(sanitize "$(echo "$repo_url" | sed -E 's#^(https?://[^/]+/|git@[^:]+:)##; s#\.git$##')")
 fi
 
-pr="none"
-if command -v gh &>/dev/null && [[ "$branch" != "none" ]]; then
-  pr=$(sanitize "$(gh pr view --json number -q .number 2>/dev/null || echo "none")")
-fi
-
 ai_agent="none"
 cc_version=$(sanitize "$(command claude --version 2>/dev/null || echo "")")
 if [[ -n "$cc_version" ]]; then
@@ -41,7 +36,6 @@ cat <<EOF
   "context": {
     "branch": "$branch",
     "repo": "$repo",
-    "pr": "$pr",
     "ai_agent": "$ai_agent",
     "user": "$os_user",
     "shell": "$shell_name",
