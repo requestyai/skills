@@ -2,7 +2,7 @@
 
 ## Overview
 
-Requesty's gateway captures any HTTP header with the `X-Requesty-` prefix and makes it available in your Requesty dashboards. This lets you break down API spend by branch, PR, developer, or any custom dimension — so you can answer questions like "how much did this PR cost?" or "which feature branch is burning the most credits?"
+Requesty's gateway captures any HTTP header with the `X-Requesty-` prefix and makes it available in your Requesty dashboards. This lets you break down API spend by branch, developer, or any custom dimension — so you can answer questions like "which feature branch is burning the most credits?" or "how much is each developer spending?"
 
 ## Standard Headers
 
@@ -19,12 +19,6 @@ These are the headers injected by the Requesty Headers skill:
 - **Source**: `git remote get-url origin`, parsed to strip protocol/host
 - **Fallback**: `"none"` when no remote configured
 - **Use case**: Break down spend across multiple repositories
-
-### `X-Requesty-Pr`
-- **Type**: string (numeric PR number or `"none"`)
-- **Source**: `gh pr view --json number -q .number`
-- **Fallback**: `"none"` when no PR exists or `gh` not installed
-- **Use case**: Track exactly how much a pull request cost to build
 
 ### `X-Requesty-Ai-Agent`
 - **Type**: string
@@ -60,7 +54,6 @@ Claude Code reads `ANTHROPIC_CUSTOM_HEADERS` as newline-separated `Name: Value` 
 ```
 X-Requesty-Branch: feat/my-feature
 X-Requesty-Repo: myorg/myrepo
-X-Requesty-Pr: 42
 X-Requesty-Ai-Agent: 2.1.123 (Claude Code)
 X-Requesty-User: alice
 ```
