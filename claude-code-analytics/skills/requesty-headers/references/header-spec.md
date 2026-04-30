@@ -2,7 +2,7 @@
 
 ## Overview
 
-Requesty's gateway captures any HTTP header with the `X-Requesty-` prefix and stores it in the interaction's `extra` field in ClickHouse. This allows customers to attach arbitrary metadata to every API request for cost attribution, debugging, and analytics.
+Requesty's gateway captures any HTTP header with the `X-Requesty-` prefix and makes it available in your Requesty dashboards. This lets you break down API spend by branch, PR, developer, or any custom dimension — so you can answer questions like "how much did this PR cost?" or "which feature branch is burning the most credits?"
 
 ## Standard Headers
 
@@ -12,47 +12,46 @@ These are the headers injected by the Requesty Headers skill:
 - **Type**: string
 - **Source**: `git branch --show-current`
 - **Fallback**: `"none"` when not in a git repo
-- **Use case**: Cost attribution by feature branch
+- **Use case**: See cost per feature branch in your Requesty dashboard
 
 ### `X-Requesty-Repo`
 - **Type**: string (format: `org/repo-name`)
 - **Source**: `git remote get-url origin`, parsed to strip protocol/host
 - **Fallback**: `"none"` when no remote configured
-- **Use case**: Multi-repo cost attribution
+- **Use case**: Break down spend across multiple repositories
 
 ### `X-Requesty-Pr`
 - **Type**: string (numeric PR number or `"none"`)
 - **Source**: `gh pr view --json number -q .number`
 - **Fallback**: `"none"` when no PR exists or `gh` not installed
-- **Use case**: PR-level spend tracking
+- **Use case**: Track exactly how much a pull request cost to build
 
 ### `X-Requesty-Ai-Agent`
 - **Type**: string
 - **Source**: `claude --version` (e.g. `2.1.123 (Claude Code)`)
 - **Fallback**: `"none"` when Claude Code version cannot be detected
-- **Use case**: Track which agent version generated the cost
+- **Use case**: Track which Claude Code version is generating spend
 
 ### `X-Requesty-User`
 - **Type**: string
 - **Source**: `USER` environment variable
 - **Fallback**: `"none"` when unset
-- **Use case**: Per-developer cost tracking
+- **Use case**: See per-developer spend in your Requesty dashboard
 
 ## Custom Headers
 
-Customers can add their own `X-Requesty-*` headers beyond the standard set. Any header with the prefix will be captured and stored. Examples:
+You can add your own `X-Requesty-*` headers beyond the standard set. Any header with the prefix will be captured and available in your dashboards. Examples:
 
 - `X-Requesty-Team: platform`
 - `X-Requesty-Environment: staging`
 - `X-Requesty-Sprint: 2026-Q2-S3`
 
-## Backend Implementation
+## How It Works
 
-Headers are captured by `client_meta.FromRequestyHeaders()` in the router:
-1. All `X-Requesty-*` headers are popped from the incoming request
-2. Merged into `requesty.Extra.Extra` map via `mergeIntoExtra()`
-3. Stored in ClickHouse `chat_interactions.extra` as JSON
-4. Headers are NOT forwarded to upstream providers (stripped before proxying)
+1. The shell wrapper sets `ANTHROPIC_CUSTOM_HEADERS` before launching Claude Code
+2. Claude Code sends these headers with every API request to Requesty's gateway
+3. Requesty captures all `X-Requesty-*` headers and stores them with the request
+4. Headers are stripped before forwarding to the AI provider — they never leave Requesty
 
 ## Format in ANTHROPIC_CUSTOM_HEADERS
 
