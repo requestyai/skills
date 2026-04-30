@@ -9,13 +9,14 @@ esac
 cat >> "$rc" <<'EOF'
 # --- Requesty header injection ---
 claude() {
-  local branch repo url
+  local branch repo url agent
   branch=$(git branch --show-current 2>/dev/null || echo "none")
   url=$(git remote get-url origin 2>/dev/null || echo "")
   [[ -n "$url" ]] && repo=$(echo "$url" | sed -E 's#^(https?://[^/]+/|git@[^:]+:)##;s#\.git$##') || repo="none"
+  agent=$(command claude --version 2>/dev/null || echo "none")
   ANTHROPIC_CUSTOM_HEADERS="X-Requesty-Branch: $branch
 X-Requesty-Repo: $repo
-X-Requesty-Ai-Agent: $(command claude --version 2>/dev/null || echo none)
+X-Requesty-Ai-Agent: $agent
 X-Requesty-User: ${USER:-none}" command claude "$@"
 }
 # --- End Requesty header injection ---
