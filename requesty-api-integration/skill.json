@@ -1,0 +1,28 @@
+{
+  "name": "requesty-api-integration",
+  "description": "Comprehensive guide for AI agents to discover, authenticate with, and use the Requesty API gateway. Covers all endpoints, error handling, routing policies, and cost optimization.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Requesty",
+    "email": "support@requesty.ai",
+    "url": "https://requesty.ai"
+  },
+  "tags": [
+    "api",
+    "llm",
+    "gateway",
+    "openai-compatible",
+    "ai-gateway",
+    "routing",
+    "caching",
+    "failover"
+  ],
+  "resources": {
+    "documentation": "https://docs.requesty.ai",
+    "api_reference": "https://docs.requesty.ai/api-reference/inference-apis",
+    "openapi_inference": "https://docs.requesty.ai/api-reference/requesty_inference-openapi.json",
+    "openapi_management": "https://docs.requesty.ai/api-reference/requesty_management-openapi.json",
+    "quickstart": "https://docs.requesty.ai/quickstart",
+    "status": "https://status.requesty.ai"
+  }
+}
