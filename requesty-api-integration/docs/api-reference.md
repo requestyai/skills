@@ -50,8 +50,9 @@ OpenAI-compatible chat completions. Supports streaming, function calling, struct
 ```
 POST /v1/responses
 ```
-OpenAI Responses API format.
+OpenAI Responses API format. Supports web search, file search, and computer use natively.
 
+**Basic request:**
 ```json
 {
   "model": "openai/gpt-4.1",
@@ -59,18 +60,131 @@ OpenAI Responses API format.
 }
 ```
 
+**With web search:**
+```json
+{
+  "model": "openai/gpt-4.1",
+  "tools": [{"type": "web_search_preview"}],
+  "input": "What are the latest AI news today?"
+}
+```
+
+**With PDF/file input:**
+```json
+{
+  "model": "openai/gpt-4.1",
+  "input": [
+    {
+      "type": "input_file",
+      "file_url": "https://example.com/document.pdf"
+    },
+    {
+      "type": "input_text",
+      "text": "Summarize this document"
+    }
+  ]
+}
+```
+
 ### Messages API
 ```
 POST /v1/messages
 ```
-Anthropic Messages API format.
+Anthropic Messages API format. Native support for PDF analysis, extended thinking, and tool use.
 
+**Basic request:**
 ```json
 {
   "model": "anthropic/claude-sonnet-4-20250514",
   "max_tokens": 1024,
   "messages": [
     {"role": "user", "content": "Hello"}
+  ]
+}
+```
+
+**With PDF document (base64):**
+```json
+{
+  "model": "anthropic/claude-sonnet-4-20250514",
+  "max_tokens": 4096,
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "document",
+          "source": {
+            "type": "base64",
+            "media_type": "application/pdf",
+            "data": "<base64-encoded-pdf>"
+          }
+        },
+        {
+          "type": "text",
+          "text": "Summarize this document"
+        }
+      ]
+    }
+  ]
+}
+```
+
+**With PDF document (URL):**
+```json
+{
+  "model": "anthropic/claude-sonnet-4-20250514",
+  "max_tokens": 4096,
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "document",
+          "source": {
+            "type": "url",
+            "url": "https://example.com/document.pdf"
+          }
+        },
+        {
+          "type": "text",
+          "text": "What are the key findings?"
+        }
+      ]
+    }
+  ]
+}
+```
+
+**With extended thinking:**
+```json
+{
+  "model": "anthropic/claude-sonnet-4-20250514",
+  "max_tokens": 16000,
+  "thinking": {
+    "type": "enabled",
+    "budget_tokens": 10000
+  },
+  "messages": [
+    {"role": "user", "content": "Solve this step by step..."}
+  ]
+}
+```
+
+**With web search (via tool use):**
+```json
+{
+  "model": "anthropic/claude-sonnet-4-20250514",
+  "max_tokens": 4096,
+  "tools": [
+    {
+      "type": "web_search_20250305",
+      "name": "web_search",
+      "max_uses": 5
+    }
+  ],
+  "messages": [
+    {"role": "user", "content": "What happened in AI news today?"}
   ]
 }
 ```
