@@ -75,31 +75,16 @@ After registering a server, select which specific tools to expose. Only whitelis
 
 #### Claude Code
 
-Add to your Claude Code MCP config (`~/.claude/mcp_servers.json` or project `.mcp.json`):
-
-```json
-{
-  "mcpServers": {
-    "requesty": {
-      "type": "streamable-http",
-      "url": "https://mcp.requesty.ai/v1/mcp",
-      "headers": {
-        "Authorization": "Bearer rqy_your_api_key"
-      }
-    }
-  }
-}
-```
+Claude Code automatically discovers MCP servers through your Requesty API key — no additional MCP configuration needed. Just set up Claude Code with Requesty (see https://docs.requesty.ai/integrations/claude-code) and available MCP tools appear automatically.
 
 #### Cursor
 
-Add to Cursor's MCP settings (Settings → MCP Servers):
+Add to Cursor's MCP settings (Settings → Features → MCP Integration):
 
 ```json
 {
   "requesty": {
-    "type": "streamable-http",
-    "url": "https://mcp.requesty.ai/v1/mcp",
+    "url": "https://router.requesty.ai/v1/mcp",
     "headers": {
       "Authorization": "Bearer rqy_your_api_key"
     }
@@ -109,17 +94,14 @@ Add to Cursor's MCP settings (Settings → MCP Servers):
 
 #### Roo Code
 
-Add to Roo Code's MCP configuration:
+Add to your `roo.config.json`:
 
 ```json
 {
-  "mcpServers": {
-    "requesty": {
-      "type": "streamable-http",
-      "url": "https://mcp.requesty.ai/v1/mcp",
-      "headers": {
-        "Authorization": "Bearer rqy_your_api_key"
-      }
+  "requesty": {
+    "url": "https://router.requesty.ai/v1/mcp",
+    "headers": {
+      "Authorization": "Bearer rqy_your_api_key"
     }
   }
 }

@@ -87,15 +87,26 @@ response = client.chat.completions.create(
     messages=[...],
     extra_body={
         "requesty": {
-            "metadata": {
+            "tags": ["code-review", "production"],
+            "user_id": "user_1234",
+            "trace_id": "session_abc123",
+            "extra": {
                 "feature": "code-review",
                 "ticket": "ENG-1234",
-                "environment": "staging"
+                "environment": "staging",
+                "tier": "premium"
             }
         }
     }
 )
 ```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `tags` | `string[]` | Filterable labels for grouping requests |
+| `user_id` | `string` | Associate request with a specific user |
+| `trace_id` | `string` | Group related requests into a session/trace |
+| `extra` | `object` | Arbitrary key-value pairs for custom analytics dimensions |
 
 ## Dashboard Views
 
