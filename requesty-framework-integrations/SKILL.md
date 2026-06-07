@@ -289,6 +289,55 @@ client = OpenAI(
 )
 ```
 
+## Coding Agent Integrations
+
+### Claude Code
+
+```json
+// ~/.claude/settings.json (recommended)
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://router.requesty.ai",
+    "ANTHROPIC_AUTH_TOKEN": "rqy_...",
+    "ANTHROPIC_MODEL": "anthropic/claude-sonnet-4-5"
+  }
+}
+```
+
+Or via environment variables:
+
+```bash
+export ANTHROPIC_BASE_URL="https://router.requesty.ai"
+export ANTHROPIC_AUTH_TOKEN="rqy_..."
+export ANTHROPIC_MODEL="anthropic/claude-sonnet-4-5"
+```
+
+Optional analytics wrapper (tracks cost per branch/repo/developer):
+
+```bash
+curl -fsSL https://www.requesty.ai/claude/install.sh | bash
+```
+
+Guide: https://docs.requesty.ai/integrations/claude-code
+
+### Cline / Roo Code
+
+Select **Requesty** from the API Provider dropdown, paste your API key and model ID. Guide: https://docs.requesty.ai/integrations/cline
+
+### GitHub Copilot (VS Code 1.122+)
+
+Add Requesty as a Custom Endpoint in **Manage Language Models**. BYOK powers chat, tools, and MCP servers. Guide: https://docs.requesty.ai/integrations/github-copilot
+
+### OpenAI Codex
+
+```bash
+export OPENAI_BASE_URL="https://router.requesty.ai/v1"
+export OPENAI_API_KEY="rqy_..."
+codex --model "anthropic/claude-sonnet-4-5"
+```
+
+Guide: https://docs.requesty.ai/integrations/openai-codex
+
 ## Supported API Endpoints
 
 | Endpoint | Description |
@@ -315,3 +364,8 @@ client = OpenAI(
 - Python requests guide: https://docs.requesty.ai/frameworks/requests
 - Axios guide: https://docs.requesty.ai/frameworks/axios
 - All integrations: https://docs.requesty.ai/integrations
+- Claude Code guide: https://docs.requesty.ai/integrations/claude-code
+- Cline guide: https://docs.requesty.ai/integrations/cline
+- Roo Code guide: https://docs.requesty.ai/integrations/roo-code
+- GitHub Copilot guide: https://docs.requesty.ai/integrations/github-copilot
+- OpenAI Codex guide: https://docs.requesty.ai/integrations/openai-codex
